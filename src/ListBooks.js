@@ -18,15 +18,15 @@ class ListBooks extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            {categories.map((category, key) => (
+            {categories.map((category) => (
               <div className="bookshelf" key={category.key}>
                 <Bookshelf
                   ckey={category.key}
                   category={category.value}
+                  books={books}
                 />
               </div>
-              )
-            )}
+            ))}
           </div>
         </div>
       </div>
