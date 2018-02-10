@@ -3,27 +3,33 @@ import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 
 class BookshelfChanger extends Component {
+  state = {
+    currentShelf: ""
+  }
+
   static propTypes = {
-    shelf: PropTypes.string.isRequired,
     book: PropTypes.object.isRequired
   }
 
-  state = {
-    shelfState: ""
+  componentDidMount() {
+    this.setState({ currentShelf: this.props.shelf })
   }
 
-  updateShelf(book, shelf) {
-    BooksAPI.update(book, shelf).then(book => {
-      console.log(book);
+  updateShelf(book, newShelf) {
+    this.setState({ currentShelf: newShelf })
+
+    BooksAPI.update(book, newShelf).then((response) => {
+      console.log(response)
     })
+    console.log('Book: '+ book.title +' Shelf: ' + newShelf );
   }
 
   render() {
-    const { shelf, book } = this.props
+    const { book } = this.props
 
     return (
       <div className="book-shelf-changer">
-        <select value={shelf}>
+        <select value={this.state.currentShelf} onChange={(event) => this.updateShelf(book, event.target.value)}>
           <option value="none" disabled>Move to...</option>
           <option value="currentlyReading">Currently Reading</option>
           <option value="wantToRead">Want to Read</option>
