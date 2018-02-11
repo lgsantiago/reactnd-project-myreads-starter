@@ -20,7 +20,7 @@ class Book extends Component {
                 <BookshelfChanger book={book} shelf={book.shelf} />
               </div>
               <div className="book-title">{book.title}</div>
-              <div className="book-authors">{book.authors.map((author) => author + " ")}  </div>
+              {typeof book.authors !== 'undefined' && (<div className="book-authors">{book.authors.map((author) => author + " ")}  </div>)}
             </div>
           </li>
         ))}

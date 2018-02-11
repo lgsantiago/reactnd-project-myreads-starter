@@ -31,7 +31,7 @@ class BooksApp extends React.Component {
           />
         )}/>
         <Route path='/search' render={({ history }) => (
-          <SearchBooks />
+          <SearchBooks booksInShelf={this.state.books}/>
         )}/>
         <div className="open-search">
           <a href='/search'>Add a book</a>
