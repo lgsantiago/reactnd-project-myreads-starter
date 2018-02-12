@@ -22,25 +22,32 @@ class SearchBooks extends Component {
         this.setState({ books })
       })
     }
-  }
+    else {
+      this.setState({ query: '', books: [] })
 
-  clearQuery = () => {
-    this.setState({ query: '' })
+    }
   }
 
   render() {
     const { booksInShelf } = this.props
     const { query, books } = this.state
 
-    let showingBooks
-    let showingBooksByAuthor
-    if (query) {
+    let showingBooks = []
+    let booksInShelfMap = []
+    booksInShelf.map((book) =>
+      booksInShelfMap[book.id] = book.shelf
+    )
+
+    if (query && books.length > 0) {
       const match = new RegExp(escapeRegExp(query), 'i')
-      if(books.length > 0)
-        showingBooks = books.filter((book) => match.test(book.title))
-        showingBooksByAuthor = books.authors.filter((author) => match.test(book.title))
-    } else {
-      showingBooks = books
+      showingBooks = books.filter((book) => (match.test(book.title) || (
+          typeof book.authors !== 'undefined' && book.authors.map((author) => match.test(author))
+        )
+      ))
+
+      showingBooks.map((book) =>
+        book.shelf = booksInShelfMap[book.id]
+      )
     }
 
     return (
